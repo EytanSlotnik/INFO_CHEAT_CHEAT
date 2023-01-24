@@ -19,14 +19,22 @@
 \usepackage{amsmath,amssymb}
 \usepackage{enumitem}
 \usepackage{xhfill}
+\usepackage{bbm}
 \makeatletter
 
 \newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
 \newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
 \makeatother
-
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=2In,
+ top=1In,
+ bottom=4In,
+ right=2In
+ }
 \title{física eléctrica}
-\usepackage[brazilian]{babel}
 \usepackage[utf8]{inputenc}
 %cambios de unidades (pt, mm, cm,ex,em,bp,dd,pc,sp) https://tex.stackexchange.com/questions/8260/what-are-the-various-units-ex-em-in-pt-bp-dd-pc-expressed-in-mm
 \advance\topmargin-.8in
@@ -44,9 +52,18 @@
     ($(current page.center)+(0.5\linewidth,0)$)
     node [midway, fill=white] {#2};
 }% tomado de https://tex.stackexchange.com/questions/179425/a-new-command-of-the-form-tex
+
+\newcommand{\Xc}{\mathcal{X}}
+\newcommand{\Yc}{\mathcal{Y}}
+\newcommand{\Zc}{\mathcal{Z}}
+\newcommand{\Ac}{\mathcal{A}}
+\newcommand{\Bc}{\mathcal{B}}
+\newcommand{\Pb}{\mathbb{P}}
+\newcommand{\Eb}{\mathbb{E}}
+\newcommand{\Ib}{\mathds{1}}
 \begin{document}
 
-\begin{center}{\huge{\textbf{INFO CHEAT SHEET}}}\\
+\begin{center}{\textbf{INFO CHEAT SHEET}}\\
 \end{center}
 \begin{multicols*}{3}
 
@@ -58,173 +75,115 @@
 \begin{tikzpicture}
 \node [mybox] (box){%
     \begin{minipage}{0.3\textwidth}
-\begin{itemize}
 \addtolength{\itemsep}{-2pt}
-%\item[$g = $]  
-%  9.80 m s$^{-2}$
-\item[$c = $] 
-  Velocidad de la luz $ = 3.00\times 10^8$ ms$^{-1}$ 
-\item[$k = $] 
-  Constante de Coulomb $ = 8.9876\times 10^9$ Nm$^2C^{-2}$ %8.9875517873681764×109 N·m2/C2 (m/F)​.
-\item[$\epsilon_o = $] 
-  Constante dieléctrica vació $ = 8.85\times 10^{-12}$ N$^{-1}$C$^2m^{-2}$ (m/F)
-\item[$\mu_o = $] 
-  Permeabilidad del vació $ = 4\pi\times 10^{-7}$ H/m $= 1.256\times 10^{-6}$ Kgs$^{-2}$A$^{-2}$ %1.25663706 × 10-6 m kg s-2 A-2
-\item[$e^{\pm} = $]
-  Carga del electrón-protón  $ = 1.60\times10^{-19}$ C
-\item[$m_e = $]
-  Masa del electrón $ = 9.11\times10^{-31}$ kg % \\ $ = 0.511$ MeV/$c^2$
-\item[$m_n = $]
-  Masa de neutrón-protón $ = 1.67\times10^{-27}$ kg % \\ $ = 938$ MeV/$c^2$
-\item[$N_A = $]
-  Número de Avogadro $ = 6.022 \times 10^{23}$ moléculas/mol
-\item[$k_B = $]
-  Constante de Boltzmann $ = 1.38 \times 10^{-23} {\mbox{J}}/{\mbox{K}}$
-%\item[$R = $]
-%  Constante de gases ideales$ = 8.31 \frac{\mbox{J}}{\mbox{mol K}} = 0.0821 \frac{\mbox{l atm}}{\mbox{mol K}}$
-%\item[ $c_{\mbox{w}} = $] 
-%  Calor específico agua $ = 1 {\mbox{ cal}}/({\mbox{g K}})$]
-%\item[ $1 {\mbox{ cal}} $] $= 4.186 {\mbox{ J}}$]
-%\item[ $\sigma = $] 
-%  Constante Stefan-Boltzmann $ = 5.67\times 10^{-8}\>\frac{\mbox{W}}{\mbox{m}^2 \mbox{K}^4}$
-\end{itemize}
+
+
+ \textbf{ Pr space} -
+  $(\Xc,P)$ s.t. $\sum_{x\in\Xc}P(x)=1$ and for any $\Ac\subseteq\Xc$ $\Pb[\Ac]=P_X(\Ac)=\sum_{x\in\Ac}P(x)$.\\
+  \textbf{Expectation} -
+  $\Eb_{P}[g(X)]=\sum_{x\in\Xc}P(x)g(x)$\\
+  \textbf{Jensen’s Ineq.} - convex $f\Rightarrow$ $f\left(\Eb[X]\right)\leq\Eb\left[f(X)\right]$\\
+  $X\rightarrow Y\rightarrow X \iff P_{X,Y,Z}=P_XP_{Y|X}P_{Z|Y}$
+  \nc{Entropy}
+  \textbf{Entropy} $H(X)=\Eb\left[\log\frac{1}{P(X)}\right]=\underset{x\in\Xc}{\sum}P(x)\log\frac{1}{P(x)}$\\
+  \textbf{$\pmb{H(X)\geq 0}$} with eq. iff $X$ is deterministic\\
+  \textbf{Joint} $H(X,Y)=H(P_{X,Y})$ with $(\Xc\times\Yc, P_{X,Y})$\\
+  \textbf{Conditional} $H(X|Y)=\Eb_{P_Y}\left[\log\frac{1}{P_{X|Y}(X)}\right]=
+  \Eb_{P_{X,Y}}\left[\log\frac{1}{P_{X|Y}(X|Y)}\right]=
+\sum\limits_{y\in\Yc}P_Y(y)\sum\limits_{x\in\Xc}P_{X|Y=y}(x)\log \frac{1}{P_{X|Y=y}(x)}$\\
+  \textbf{Chain Rule} $H(X,Y)=H(X)+H(Y|X)=H(Y)+H(X|Y)$ using $P_{X,Y}=P_XP_{Y|X}$\\
+  \textbf{Full chain Rule} $H(X^n)=\sum_iH(X_i|X^{i-1})$\\
+  $\pmb{H\left(f(X)\right)\leq H(X)}$ with eq. iff $f$ is one-on-one on supp$X$.\\
+  $\pmb{H(X|Y)\leq H(X|g(Y))}$\\
+$\pmb{H(X)\leq\log |\Xc|}$ with eq. iff $X~U[\Xc]$\\
+  \textbf{Concavity of Entropy} - $\alpha H(P_1)+(1-\alpha)H(P_2)\leq H(\alpha P_1 + (1-\alpha )P_2)$ with eq. iff $P_1=P_2$\\
+ \textbf{Corollary} $H(X|Y)=\Eb_{P_Y}
+ \left[H(P_{X|Y=y})\right]\leq H\left(\Eb[P_{X|Y=y}]\right)=H(X)$ with eq. i\\
+ $\pmb{h_2(p)}$ $=H_{X\sim\text{ber}(p)}(X)=-p\log p - (1-p)\log (1-p)$\\
+  $\pmb{H_{X\sim\text{Geo}(p)}(X)}=\frac{h_2(p)}{p}$
+\nc{Divergence}
+\[
+\begin{split}
+    &D(P||Q)=\Eb_P\left[\log\frac{P(X)}
+    {Q(X)}\right]=\sum_{x\in\Xc}P(x)\log\frac{P(x)}{Q(x)}\\
+    &D(\text{Ber}(p)||\text{Ber}(q)=d(p||q)=p\log\frac{p}{q}+(1-p)\frac{1-p}{1-q}\\
+    &Q^{\bigotimes n}(x^n)=2^{-n(H(P)+D(P||Q))\ P\textbf{ is the empirical distr.}}
+\end{split}
+\]
+$H(X)=\log|\Xc|-D(P_X||U_\Xc)$\\
+$D(P||Q)\geq 0$ with eq. iff $P+Q$\\
+$D(P_Y||Q_Y|P_X)=\Eb_{P_X}\left[D(P_{Y|X}||Q_{Y|X})\right]=\sum\limits_{x\in\Xc}P_X(x)D(P_{Y|X=x}||Q_{Y|X=x})=\Eb\left[\log\frac{P_{Y|X}(Y|X)}{Q_{Y|X}(Y|X)}\right]$\\
+$D(P_{X,Y}||Q_{X,Y})=D(P_X,Q_X)+D(P_{Y|X}||Q_{Y|X}|P_X)$\\
     \end{minipage}
 };
 %---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Constantes Fundamentales};
+\node[fancytitle, right=10pt] at (box.north west) {Inforamation Measures};
 \end{tikzpicture}
 
 %---------------------------
 \begin{tikzpicture}
 \node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-    $\Vec{F}_{ij}=k\frac{Q_iQ_j}{r^2_{ij}}\hat{r}_{ij} = \frac{1}{4\pi\epsilon_o}\frac{Q_iQ_j}{r^2_{ij}}\hat{r}_{ij}=Q_i\Vec{E}_j$\\
-    $\Vec{E}_i=k\frac{Q_i}{r^2_{io}}\hat{r}_{io}$ \\
-    $V=k\frac{Q_i}{r_{oi}}$ 
+\begin{minipage}{0.3\textwidth}
+For channel
+$P_{Y|X}$ 
+and 
+$Q_Y=P_{X|Y}Q_X$, \\
+$P_Y=P_{X|Y}P_X$ 
+so
+$D(P_Y||Q_Y)\leq D(P_X||Q_X)$
+
+\nc{Mutual Information}
+$I(X,Y)=D(P_{X,Y}||P_XP_Y)=D(P_{Y|X}||P_Y|P_X)$\\
+$=H(X)-H(X|Y)=H(X)+H(Y)-H(X,Y)$
+$I(X;Y)\geq 0$ with eq. iff $X\bot Y$. $I(X;X)=H(X)$.\\
+$I(X;Y|Z)=D(P_{X,Y|Z}||P_{X|Z}P_{Y|Z}|P_Z)=H(X|Z)-H(X|Y,Z)$\\
+$I(Z,X;Y)=I(Z;Y)+I(X;Y|Z)$\\
+$I(X^n;Y)=\sum_iI(X_i;Y|X[1..i-1])$\\
+If $X\rightarrow  Y\rightarrow Z$ then $I(X;Z)\leq I(X;Y)$ with eq. iff $X\rightarrow  Z\rightarrow Y$.\\
+$I(f(X);g(Y))\leq I(X;Y)$ with eq iff f,g are one-to-one.\\
+$I(X;T(Y))=I(X;Y)$ iff T is a sufficient statistic.
+For fixed $P_{Y|X}$ $P_X\mapsto I(P_X;P_{Y|X})$ is convex.
+
     \end{minipage}
 };
 %---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Distribuciones Discretas};
+\node[fancytitle, right=10pt] at (box.north west) {Information Measures};
 \end{tikzpicture}
 
 %---------------------------
 \begin{tikzpicture}
 \node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-    $\lambda= \frac{q}{L}=\frac{dq}{dL}$, $dq=\lambda dL$\\
-    $\sigma= \frac{q}{A}=\frac{dq}{dA}$, $dq=\sigma dA$\\
-    $\rho= \frac{q}{V}=\frac{dq}{dV}$, $dq=\rho dV$
-    \end{minipage}
-};
-%---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Densidad de Carga};
-\end{tikzpicture}
+\begin{minipage}{0.3\textwidth}
+$\Pb [Z>a]\leq \frac{\Eb [Z]}{a}$, 
+$\Pb [|Z-\Eb [Z]|>a]\leq \frac{\text{Var}[Z]}{a^2}$\\
+$\Pb \left[
+\left|
+\frac{1}{n}\sum\limits_iZ_i-\Eb [Z]
+\right|
+>\epsilon
+\right]
+\xrightarrow{n\rightarrow \infty}0$\\
+$\Ac_\epsilon^n=\{
+x^n\in \Xc^n\left|
+2^{-n(H+\epsilon)} \leq
+\prod_iP_X(x_i)\leq
+2^{-n(H-\epsilon)}
+\right
+\}$\\
+$x^n\in \Ac_\epsilon^n\iff 
+\frac{1}{n}\log \frac{1}{\prod_iP_X(x_i)}\in H\pm \epsilon$\\
+$\Pb [X^n\in \Ac_\epsilon^n]\geq 1-\epsilon$ for n$>>$\\
+$|\Ac_\epsilon^n|\leq 2^{n(H+\epsilon)}$\\
+$|\Ac_\epsilon^n|\geq (1-\epsilon) 2^{n(H-\epsilon)}$ for n$>>$\\
+$\Pb [\mathcal{B}^n]\leq \epsilon + 2^{n(\alpha +\epsilon - H(X))}$ for n$>>$, $|\mathcal{B}^n|=2^{n\alpha} $\\
+For $n>>$ and $(n,R)$ code, $P_e\geq 1-\epsilon - 2^{n(R+\epsilon-H)}$\\
+For $R<H$ $P^*_e\xrightarrow[]{n\rightarrow\infty}1$
 
-%---------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-     \nc{Campo}\\
-    $d\vec{E} = k\frac{dq}{r^2_{do}}\hat{r}_{do}$\\
-    $\vec{E} = k\bigintsss \frac{\lambda dL}{r^2_{do}}\hat{r}_{do}$, $\vec{E} = k\bigintsss \frac{\sigma dA}{r^2_{do}}\hat{r}_{do}$, $\vec{E} = k\bigintssss \frac{\rho dV}{r^2_{do}}\hat{r}_{do}$\\
-    $\vec{E}_{linea}=\frac{1}{2\pi\epsilon_o}\frac{\lambda}{r}\hat{r}$\\ $\vec{E}_{placa}=\frac{\sigma}{2\epsilon_o}\hat{r}_{\scriptstyle{\perp}}$\\ Entre placas opuestas $\vec{E}_{placas}=\frac{\sigma}{\epsilon_o}\hat{r}_{\scriptstyle{\perp}}$\\
-    $E_i=-\frac{dV}{dx_i}$; $x_i=x,y,z$\\  
-    $\vec{E}=-\vec{\nabla} V$
-    \end{minipage}
-};
-%------------ campo titulo---------------------
-\node[fancytitle, right=10pt] at (box.north west) {Distribuciones Continuas};
-\end{tikzpicture}
-%---------------------------------
-%\bigskip
-%---------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-    \nc{Gauss}\\
-    $\Phi=\bigointsss \vec{E}\cdot d\vec{A}=\frac{q_{enc}}{\epsilon_o}$\\
-    \nc{Potencial}\\
-    $V=\frac{U}{q}$\\
-    $V=\vec{E}\cdot\vec{r}$\\
-    $V-V_o=-\bigintsss \vec{E}\cdot d\vec{l}$\\
-    $V=\frac{1}{4\pi\epsilon_o}\bigintsss \frac{dq}{r}$\\
-    $V= k\bigintsss \frac{\lambda dL}{r_{do}}$, $V= k\bigintsss \frac{\sigma dA}{r_{do}}$, $V = k\bigintssss \frac{\rho dV}{r_{do}}$\\
-    \nc{Energía}\\
-    $\Delta U=-\bigintsss_a^b\vec{F}d\vec{l}=-q\bigintsss_a^b\vec{E}d\vec{l}$\\
-    $\Delta U=q\Delta V=-W_{ab}=qEl$
-    \end{minipage}
-};
-%------------ potencial titulo  ---------------------
-\node[fancytitle, right=10pt] at (box.north west) {Distribuciones Continuas};
-\end{tikzpicture}
-
-%---------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-    $C_o\frac{q}{V}=\frac{\epsilon_oA}{d}$, con dieléctrico $C=kC_o=\frac{k\epsilon_oA}{d}$\\
-    $C_p=C_1+C_2+...+C_n=\sum_i^nC_i$\\
-    $C_s=1/C_1+1/C_2+...+1/C_n=(\sum_i^n\frac{1}{C_i})^{-1}$\\
-    $E_{pot-elec}=U=\frac{1}{2}qV=\frac{q^2}{2C}=\frac{1}{2}CV^2$\\
-    $\mu=\frac{\epsilon_oE^2}{2}=\frac{\epsilon_oV^2}{2d^2}=\frac{U}{V_{olumen}}$
     \end{minipage}
 };
 %---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Capacitancia};
+\node[fancytitle, right=10pt] at (box.north west) {AEP};
 \end{tikzpicture}
-
-%\bigskip\\
-%---------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-    $I=\frac{V}{R}=\frac{\Delta q}{\Delta t}=\frac{dq}{dt}=JA=\int \vec{J}\cdot\vec{A}$\\
-    $v_d=\frac{I}{nAe}=\frac{J}{ne}=a\tau=\frac{eE\lambda}{m}$\\
-    $R=\rho\frac{L}{A}$, $\rho=\frac{E}{J}=\frac{1}{\sigma}=\frac{m_e}{ne^2\tau}$, $\vec{J}=\sigma \vec{E}=-ne\vec{v}_d$\\
-     $R_s=R_1+R_2+...+R_n=\sum_i^nR_i$\\
-    $R_p=1/R_1+1/R_2+...+1/R_n=(\sum_i^n\frac{1}{R_i})^{-1}$\\
-    $P=IV=I^2R=\frac{V^2}{R}=\frac{dU}{dt}$, $dU=dqV_{ab}=IdtV_{ab}$\\
-    \end{minipage}
-};
-%---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Corriente};
-\end{tikzpicture}
-
-%\bigskip\\
-%---------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-    $F=\frac{\mu_o}{2\Pi}\frac{qvI}{r}$\\
-    $\vec{F}=q\vec{v}\times\vec{B}$,$F=qvBsen\theta$\\
-    $B=\frac{\mu_oI}{2\pi r}$\\
-    $\vec{F}=q\vec{E}+q\vec{v}\times\vec{B}$\\
-    $B=n\mu_oI$\\
-    $\vec{F}=i\vec{l}\times\vec{B}$
-    \end{minipage}
-};
-%---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Fuentes Campo Magnético};
-\end{tikzpicture}
-\bigskip\\
-%---------------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-	\nc{Biot-Savart}
-	$d\vec{B}=\frac{\mu_o}{4\pi}\frac{Id\vec{l}\times\vec{r}}{r^3}$\\
-	$B=\frac{\mu_oI}{4\pi R^2}\Delta l_{arco}$\\
-	$B=\frac{\mu_oI}{4\pi R}(cos\theta_1-cos\theta_2)$\\
-	\nc{Cargas en Movimiento}\\
-	$r=\frac{mv}{qB}$\\
-	$a=\frac{qvB}{m}=\frac{v^2}{r}$
-	\end{minipage}
-};
-%---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Cargas en Movimiento con Presencia de Campos};
-\end{tikzpicture}
-\bigskip\\
-
 
 
 
