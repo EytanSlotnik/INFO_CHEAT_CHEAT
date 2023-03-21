@@ -12,6 +12,8 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{decorations.pathmorphing}
 \usepackage{amsmath,amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \usepackage{colortbl}
 \usepackage{xcolor}
@@ -31,10 +33,13 @@
  total={170mm,257mm},
  left=2In,
  top=1In,
- bottom=4In,
+ bottom=2.5In,
  right=2In
  }
+ \usepackage{algorithm}
+\usepackage{algpseudocode}
 \title{física eléctrica}
+\pagestyle{empty}
 \usepackage[utf8]{inputenc}
 %cambios de unidades (pt, mm, cm,ex,em,bp,dd,pc,sp) https://tex.stackexchange.com/questions/8260/what-are-the-various-units-ex-em-in-pt-bp-dd-pc-expressed-in-mm
 \advance\topmargin-.8in
@@ -59,36 +64,43 @@
 \newcommand{\Ac}{\mathcal{A}}
 \newcommand{\Bc}{\mathcal{B}}
 \newcommand{\Pb}{\mathbb{P}}
+\newcommand{\Nb}{\mathbb{N}}
+\newcommand{\Rb}{\mathbb{R}}
+
+
 \newcommand{\Eb}{\mathbb{E}}
-\newcommand{\Ib}{\mathds{1}}
+\newcommand{\Ib}{\mathbbm{1}}
+\newcommand{\Sc}{\mathcal{S}}
 \begin{document}
 
 \begin{center}{\textbf{INFO CHEAT SHEET}}\\
 \end{center}
+\setlength{\columnseprule}{0.4pt}
 \begin{multicols*}{3}
 
 \tikzstyle{mybox} = [draw=black, fill=white, very thick,
     rectangle, rounded corners, inner sep=10pt, inner ysep=10pt]
 \tikzstyle{fancytitle} =[fill=black, text=white, font=\bfseries]
 
-%--------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-    \begin{minipage}{0.3\textwidth}
-\addtolength{\itemsep}{-2pt}
+% %--------------------------
+% \begin{tikzpicture}
+% \node [mybox] (box){%
+%     \begin{minipage}{0.3\textwidth}
+% \addtolength{\itemsep}{-2pt}
 
 
  \textbf{ Pr space} -
   $(\Xc,P)$ s.t. $\sum_{x\in\Xc}P(x)=1$ and for any $\Ac\subseteq\Xc$ $\Pb[\Ac]=P_X(\Ac)=\sum_{x\in\Ac}P(x)$.\\
   \textbf{Expectation} -
   $\Eb_{P}[g(X)]=\sum_{x\in\Xc}P(x)g(x)$\\
+  \textbf{Tail Sum} $\Eb [X]=\sum\limits_{n\in\Nb}\Pb[X\geq n]$ if supp$X\subseteq\Nb$\\
   \textbf{Jensen’s Ineq.} - convex $f\Rightarrow$ $f\left(\Eb[X]\right)\leq\Eb\left[f(X)\right]$\\
   $X\rightarrow Y\rightarrow X \iff P_{X,Y,Z}=P_XP_{Y|X}P_{Z|Y}$
   \nc{Entropy}
   \textbf{Entropy} $H(X)=\Eb\left[\log\frac{1}{P(X)}\right]=\underset{x\in\Xc}{\sum}P(x)\log\frac{1}{P(x)}$\\
   \textbf{$\pmb{H(X)\geq 0}$} with eq. iff $X$ is deterministic\\
   \textbf{Joint} $H(X,Y)=H(P_{X,Y})$ with $(\Xc\times\Yc, P_{X,Y})$\\
-  \textbf{Conditional} $H(X|Y)=\Eb_{P_Y}\left[\log\frac{1}{P_{X|Y}(X)}\right]=
+  $H(X|Y)=\Eb_{P_Y}\left[\log\frac{1}{P_{X|Y}(X)}\right]=
   \Eb_{P_{X,Y}}\left[\log\frac{1}{P_{X|Y}(X|Y)}\right]=
 \sum\limits_{y\in\Yc}P_Y(y)\sum\limits_{x\in\Xc}P_{X|Y=y}(x)\log \frac{1}{P_{X|Y=y}(x)}$\\
   \textbf{Chain Rule} $H(X,Y)=H(X)+H(Y|X)=H(Y)+H(X|Y)$ using $P_{X,Y}=P_XP_{Y|X}$\\
@@ -98,32 +110,24 @@
 $\pmb{H(X)\leq\log |\Xc|}$ with eq. iff $X~U[\Xc]$\\
   \textbf{Concavity of Entropy} - $\alpha H(P_1)+(1-\alpha)H(P_2)\leq H(\alpha P_1 + (1-\alpha )P_2)$ with eq. iff $P_1=P_2$\\
  \textbf{Corollary} $H(X|Y)=\Eb_{P_Y}
- \left[H(P_{X|Y=y})\right]\leq H\left(\Eb[P_{X|Y=y}]\right)=H(X)$ with eq. i\\
+ \left[H(P_{X|Y=y})\right]\leq H\left(\Eb[P_{X|Y=y}]\right)=H(X)$ with eq. iff $X\bot Y$.\\
  $\pmb{h_2(p)}$ $=H_{X\sim\text{ber}(p)}(X)=-p\log p - (1-p)\log (1-p)$\\
-  $\pmb{H_{X\sim\text{Geo}(p)}(X)}=\frac{h_2(p)}{p}$
+  $\pmb{H_{X\sim\text{Geo}(p)}(X)}=\frac{h_2(p)}{p}$\\
 \nc{Divergence}
-\[
-\begin{split}
-    &D(P||Q)=\Eb_P\left[\log\frac{P(X)}
-    {Q(X)}\right]=\sum_{x\in\Xc}P(x)\log\frac{P(x)}{Q(x)}\\
-    &D(\text{Ber}(p)||\text{Ber}(q)=d(p||q)=p\log\frac{p}{q}+(1-p)\frac{1-p}{1-q}\\
-    &Q^{\bigotimes n}(x^n)=2^{-n(H(P)+D(P||Q))\ P\textbf{ is the empirical distr.}}
-\end{split}
-\]
+$D(P||Q)=\Eb_P\left[\log\frac{P(X)}
+    {Q(X)}\right]=\sum_{x\in\Xc}P(x)\log\frac{P(x)}{Q(x)}$\\
+    $D(\text{Ber}(p)||\text{Ber}(q)=d(p||q)=p\log\frac{p}{q}+(1-p)\frac{1-p}{1-q}$\\
+    $Q^{\bigotimes n}(x^n)=2^{-n(H(P)+D(P||Q))}\ P\textbf{ is the empirical distr.}$\\
 $H(X)=\log|\Xc|-D(P_X||U_\Xc)$\\
 $D(P||Q)\geq 0$ with eq. iff $P+Q$\\
 $D(P_Y||Q_Y|P_X)=\Eb_{P_X}\left[D(P_{Y|X}||Q_{Y|X})\right]=\sum\limits_{x\in\Xc}P_X(x)D(P_{Y|X=x}||Q_{Y|X=x})=\Eb\left[\log\frac{P_{Y|X}(Y|X)}{Q_{Y|X}(Y|X)}\right]$\\
 $D(P_{X,Y}||Q_{X,Y})=D(P_X,Q_X)+D(P_{Y|X}||Q_{Y|X}|P_X)$\\
-    \end{minipage}
-};
-%---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Inforamation Measures};
-\end{tikzpicture}
+%     \end{minipage}
+% };
+% %---------------------------------
+% \node[fancytitle, right=10pt] at (box.north west) {Inforamation Measures};
+% \end{tikzpicture}
 
-%---------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-\begin{minipage}{0.3\textwidth}
 For channel
 $P_{Y|X}$ 
 and 
@@ -136,24 +140,14 @@ $D(P_Y||Q_Y)\leq D(P_X||Q_X)$
 $I(X,Y)=D(P_{X,Y}||P_XP_Y)=D(P_{Y|X}||P_Y|P_X)$\\
 $=H(X)-H(X|Y)=H(X)+H(Y)-H(X,Y)$
 $I(X;Y)\geq 0$ with eq. iff $X\bot Y$. $I(X;X)=H(X)$.\\
-$I(X;Y|Z)=D(P_{X,Y|Z}||P_{X|Z}P_{Y|Z}|P_Z)=H(X|Z)-H(X|Y,Z)$\\
+$I(X;Y|Z)=D(P_{X,Y|Z}||P_{X|Z}P_{Y|Z}|P_Z)=$\\$H(X|Z)-H(X|Y,Z)$\\
 $I(Z,X;Y)=I(Z;Y)+I(X;Y|Z)$\\
 $I(X^n;Y)=\sum_iI(X_i;Y|X[1..i-1])$\\
 If $X\rightarrow  Y\rightarrow Z$ then $I(X;Z)\leq I(X;Y)$ with eq. iff $X\rightarrow  Z\rightarrow Y$.\\
 $I(f(X);g(Y))\leq I(X;Y)$ with eq iff f,g are one-to-one.\\
 $I(X;T(Y))=I(X;Y)$ iff T is a sufficient statistic.
-For fixed $P_{Y|X}$ $P_X\mapsto I(P_X;P_{Y|X})$ is convex.
-
-    \end{minipage}
-};
-%---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {Information Measures};
-\end{tikzpicture}
-
-%---------------------------
-\begin{tikzpicture}
-\node [mybox] (box){%
-\begin{minipage}{0.3\textwidth}
+For fixed $P_{Y|X}$ $P_X\mapsto I(P_X;P_{Y|X})$ is convex.\\
+\nc{AEP}
 $\Pb [Z>a]\leq \frac{\Eb [Z]}{a}$, 
 $\Pb [|Z-\Eb [Z]|>a]\leq \frac{\text{Var}[Z]}{a^2}$\\
 $\Pb \left[
@@ -163,13 +157,12 @@ $\Pb \left[
 >\epsilon
 \right]
 \xrightarrow{n\rightarrow \infty}0$\\
-$\Ac_\epsilon^n=\{
+$\Ac_\epsilon^n=\left\{
 x^n\in \Xc^n\left|
 2^{-n(H+\epsilon)} \leq
 \prod_iP_X(x_i)\leq
 2^{-n(H-\epsilon)}
-\right
-\}$\\
+\right.\right\}$\\
 $x^n\in \Ac_\epsilon^n\iff 
 \frac{1}{n}\log \frac{1}{\prod_iP_X(x_i)}\in H\pm \epsilon$\\
 $\Pb [X^n\in \Ac_\epsilon^n]\geq 1-\epsilon$ for n$>>$\\
@@ -177,15 +170,168 @@ $|\Ac_\epsilon^n|\leq 2^{n(H+\epsilon)}$\\
 $|\Ac_\epsilon^n|\geq (1-\epsilon) 2^{n(H-\epsilon)}$ for n$>>$\\
 $\Pb [\mathcal{B}^n]\leq \epsilon + 2^{n(\alpha +\epsilon - H(X))}$ for n$>>$, $|\mathcal{B}^n|=2^{n\alpha} $\\
 For $n>>$ and $(n,R)$ code, $P_e\geq 1-\epsilon - 2^{n(R+\epsilon-H)}$\\
-For $R<H$ $P^*_e\xrightarrow[]{n\rightarrow\infty}1$
+For $R<H$ $P^*_e\xrightarrow[]{n\rightarrow\infty}1$\\
+\textbf{Almost Lossless Compression Direct} For any $P_X,\epsilon >0$ there $(n,R)$ with $R>H+\epsilon$ and $P_e\leq \epsilon$.\\
+\textbf{Corollary} For $R>H$ $P^*_e\xrightarrow[]{n\rightarrow\infty}0$\\
+\textbf{Arithmetic Encoding}($X^n$)
+\begin{algorithmic}[1]
+\State initialize : $a_0=0,\Delta_0=1$
+\For{$i\leftarrow 1\dots n$}
+    \State $a_i=a_{i-1}+\Delta_{i-1}\sum_{j=1}^{x_i-1}P_X(j)$
+    \State $\Delta_i=\Delta P_X(x_i)$
+\EndFor\\
+\Return $[a_n,a_n+\Delta_n)$
+\end{algorithmic}
+\textbf{ANS Encoding}($X^n$)
+\begin{algorithmic}[1]
+\State $b(1)=1,b(x)=1+\sum_{i=1}^{x-1}c(i)$
+\State initialize : $s_1=b(x_1)$
+\For{$t\leftarrow 2\dots n$}
+    \State $r_t=s_{t-1}\mod c(x_t)$
+    \State $f_t=\frac{s_{t-1}-r_t}{c(x_t)}$
+    \State $s_t=f_tM+b(x_t)+r_t$
+\EndFor\\
+\Return $s_n$
+\end{algorithmic}
+\textbf{ANS Decoding}($s_n)$
+\begin{algorithmic}[1]
+\For{$t\leftarrow n\dots 1$}
+    \State $v_t=1+[s_t-1]\mod M$
+    \State $x_t=x\text{ s.t. }v_t\in\left[b(x),b(x)+c(x)\right)$
+    \State $f_t=\frac{s_t-v_t}{M}$
+    \State $r_t=v_t-b(x_t)$
+    \State $s_{t-1}=c(x_t)f_t+r_t$
+\EndFor\\
+\Return $X^n$
+\end{algorithmic}
+\nc{VLC}\\
+\textbf{Shannon Code Length} $\ell(m)=\lceil\log\frac{1}{P_X(m)}\rceil$\\
+\textbf{Kraft’s Ineq for Prefix-Free Codes} For $\Xc=[M]$ a PFC with length $\ell(x)$ must satisfy $\sum_i2^{-\ell(i)}\leq 1$,\\
+And if $\ell$ satisfies, then there is a PFC using $\ell$ length.\\
+\textbf{Huffman tree building}
+\begin{algorithmic}[1]
+\State Initialize : $S =S'= \{(s_i,p_i)\}_i, G=(S',\phi)$
+\While{$|S| > 1$}
+    \State Find two nodes with lowest Pr: $(s_i,p_i), (s_j,p_j) \in S$
+    \State Remove $(s_i,p_i), (s_j,p_j)$ from $S$ (not $S'$)
+    \State Create new node: $(s_k,p_k) = (s_i \times s_j, p_i + p_j)$
+    \State Add $(s_k,p_k)$ to $S,S'$.
+    \State Add $((s_i,p_i),(s_k,p_k)),((s_j,p_j),(s_k,p_k))$ to $E$.
+\EndWhile
+\State The remaining node in $S$ is the root
+\end{algorithmic}
+\textbf{Fundamental limits for uniquely-decodable codes} $H\leq \min_f\Eb[\ell_f]\leq H+1$\\
+\textbf{Mismatched encoding} For any $X\sim Q$ there is $f$ s.t. any $P$ will hold $\Eb_X[L_f]\leq H(P)+D(P||Q)+1$\\
+\nc{Gambling}
+$[K]$ horses, with $o_i$ payments. $\Gamma=\sum_i\frac{1}{o_i}$, $R_i=\frac{1/o_i}{\Gamma}$
+Wealth after n games $S_n=S_{n-1}=S_0\prod_i\frac{Q(X_i)}{\Gamma R_{X_i}}$\\
+\textbf{Doubling Rate} $\Eb_X\left[\log\frac{Q(X)}{\Gamma R_X}\right]$ $S_n\approx S_02^{n(W(Q,P)\pm \epsilon)}$\\
+$W(Q,P)=D(P||R)-D(P||Q)-\log\Gamma$\\
+\textbf{Corollary} $Q^*=P,W^*(P,P)=D(P||R)-\log\Gamma$
+If $\Gamma\leq 1$ it's optimal to invest everything.
+\textbf{Side Info} $W(Q_{X|Y},P{X,Y})=
+\Eb_{P_{X,Y}}\left[
+\log\frac{Q_{X|Y}(X|Y)}{\Gamma R_X}
+\right]$\\
+$=D(P||R)-D(P_{X|Y}||Q_{X||Y}|P_Y)-\log \Gamma+I(X;Y)$
+$W^*(P_{X,Y})-W^*(P_X)=I(X;Y)$\\
+\nc{Fano’s Inequality}
+Let $|\Xc|=M$ and $X\rightarrow Y\rightarrow \hat{X}$ then\\
+\[
+\begin{split}
+    H(X|Y)&\leq \Pb [X\neq \hat{X}]\log(M-1)+h_2(\Pb[X\neq \hat{X}])\\
+    &\leq \Pb [X\neq \hat{X}]\log(M-1)+1
+\end{split}
+\]
+Let $W\sim U[M]$ $|\Xc|=M$ and $W\rightarrow X\rightarrow Y\rightarrow \hat{W}$ then\\
+$\Pb [W\neq \hat{W}]\geq 1-\frac{I(X;Y)+1}{\log M}$\\
+\nc{Information Capacity}
+For channel $P_{X|Y}\ C_i=\underset{P_X}{\max}I(P_X;P_{Y|X})=\underset{P_X}{\max}I(X;Y)$\\
+\textbf{CAID} - $P^*_X=\text{arg }\underset{P_X}{\max}I(P_X;P_{Y|X})$\\
+\textbf{CAOD} $P^*_Y=P_{Y|X}\circ P_X^*$\\
+\textbf{BSC} - $X\sim \text{Ber}(p), Z\sim \text{Ber}(\delta),X\bot Z,
+Y=X\otimes Z\Rightarrow\\ I(X;Y)=H(Y)-h_2(\delta),C_i=1-h_2(\delta),P^*_X=\text{Ber}(1/2)$\\
+\textbf{BEC} - 
+$X\sim \text{Ber}(p),Y|X\sim\left\{(X,1-\delta),(?,\delta)\right\}\Rightarrow\\ I(X;Y)=(1-\delta)H(X),C_i=1-\delta,P^*_X=\text{Ber}(1/2)$\\
+$I(X^n;Y^n)\leq \sum_iI(X_i,Y_i)$ with eq. iff $P_{Y^n}=\prod_iP_{Y_i}$\\
+For $P_{Y^n|X^n}=\prod_iP_{Y_i|X_i}$ with $C_i$ the capacity of $P_{Y_i|X_i}$ then $C=\sum_iC_i$.\\
+$g_{MAP}(y^n)=\text{arg max}_m\Pb[W=m|Y^n=y^n]$ is an optimal decoder, and if $W\sim U[M]$ then $g_{MAP}=g_{ML}$\\
+\textbf{Rate of $\pmb{(n,M)}$-code} $R=\frac{\log M}{n}\frac{\text{bit}}{\text{channel}}$\\
+$M^*(n,\epsilon)=M^*(n,\epsilon,P_{X|Y})=
+\max\{M|\exists(n,M,\epsilon)\text{ for } P_{Y|X}\}$\\
+$R^*(n,\epsilon)=\frac{\log M^*(n,\epsilon)}{n}$\\
+$C_\epsilon=\underset{n\rightarrow\infty}{\liminf}R^*(n,\epsilon),\ C=\underset{\epsilon\rightarrow 0^+}{\liminf}C_\epsilon$\\
+For any $R<C$ there exists a sequance of $(n,2^{nR},\epsilon_n)$ s.t. $\epsilon_n\xrightarrow[]{n\rightarrow\infty}0$\\
+$C_i\leq C_\epsilon\leq \frac{C_i}{1-\epsilon}$\\
+\textbf{Choice of Channels} for $\Xc=\Xc_1\cdot \hspace{-7pt}\cup\Xc_2$    $ \Yc=\Yc_1\cdot \hspace{-7pt}\cup\Yc_2$\\
+\tikzset{
+    edge/.style={->}
+}
+\begin{tikzpicture} 
 
-    \end{minipage}
-};
-%---------------------------------
-\node[fancytitle, right=10pt] at (box.north west) {AEP};
-\end{tikzpicture}
+  \node (X) at (0,0) {$X$}; 
+  \node (P1) at (2,0.2)  {$P_{Y_1|X_1}$}; 
+  \node (P2) at (2,-0.2)  {$P_{Y_2|X_2}$};
+  \node (Y1) at (4,0.2) {$Y_1$};
+  \node (Y2) at (4,-0.2) {$Y_2$};
+  \node (Y) at (6,0) {$Y$};
+  \draw[edge] (X) -- (P1)node[midway, above] {$x\in\Xc_1$};
+  \draw[edge] (X) -- (P2)node[midway, below] {$x\in\Xc_2$}; 
+  \draw[edge] (P1) -- (Y1);
+  \draw[edge] (P2) -- (Y2);
+  \draw[edge] (Y1) -- (Y);
+  \draw[edge] (Y2) -- (Y);
+  
+\end{tikzpicture}\\ $2^{C_{P_{Y|X}}}=2^{C_{P_{Y_2|X_1}}}+2^{C_{P_{Y_2|X_2}}}$\\
+\nc{Random Coding}\\
+$\pmb{\Ac_\epsilon^n(P_X|P_{Y|X})}=\\
+\left\{
+x^n\in \Xc^n,y^n\in\Yc\left|
+\frac{1}{n}\sum_i\log\frac{P_{Y|X}(y_i|x_i)}{P_Y(y_i)}\geq I(X;Y)-\epsilon
+\right.
+\right\}$\\
+For big $n$ $\Pb[\Ac_\epsilon^n(P_X|P_{Y|X})^c]<\epsilon$\\
+and $\Pb[\Ac_\epsilon^n(P_X|P_{Y|X})]<2^{-n(I(X;Y)-\epsilon)}$\\
+For DMC $P_{Y|X},P_X$ there exists an $(n,2^{n(I(X;Y)-\epsilon)},\epsilon)$ code.\\
+\textbf{Separation Theorem} For $\mathcal{S}^k\sim P_S$ and DMC $P_{Y|X}$ there is a $S^k\rightarrow X^n\rightarrow Y^n\rightarrow \hat{S}^k$ with $P_e\leq\epsilon$ iff $\frac{n}{k}=\rho\geq \frac{H(P_S)}{C_{P_{Y|X}}}$\\
+\nc{The last part that mehhhhh}\\
+\textbf{Distortion} $d:\Xc\times\hat{\Xc}\rightarrow\Rb$, $d(X^n,\hat{X}^n)=\sum_id(X_i,
+\hat{X}_i)$\\
+$D=\Eb_\Xc\left[d(X^n,\hat{X}^n)\right]$\\
+\textbf{Lloyd’s} ($d,f,T$)
+\begin{algorithmic}[1]
+\State Initialize $c_i$ Arbitrarily.
+\For {T times}
+    \State $\mathcal{V}_i=\left\{
+    x^n\in \Rb^n|i = \arg\min_j d(x^n,c_j)
+    \right\}$
+    \State $c_i=\arg\underset{{c\in\Rb^n}}{\min}\Eb_{X\sim f}\left[d(X^n,c)|X^n\in\mathcal{V}_i\right]$
+\EndFor
+\end{algorithmic}
+$f$ log-concave and $\Xc=\Rb$ Lloyd’s converges opt.\\
+$h(U[x_0,x_1])=\log(x_1-x_0)$,
+$h(aX+b)=\log|a|+h(X)$\\
+$h\left(\mathcal{N}(\mu,\sigma^2)\right)=\frac{1}{2}\log\left(2\pi e\sigma^2\right)$\\
+For $X$ with var $\sigma^2$ $h(X)\leq
+\frac{1}{2}\log\left(2\pi e\sigma^2\right)$
+$(R,D)$ is achievable if there is a seq of $(n,M_n,D_n)$ s.t.\\ $D_n\xrightarrow[n\rightarrow\infty]{}D$ and $\frac{1}{n}\log M_n\xrightarrow[n\rightarrow\infty]{}R$\\
+$R(D)=\inf\left\{R|(R,D)\text{ is achievable}\right\}$\\
+$=R_i(D)=\underset{P_{\hat{X}|X}|\Eb[d(X,\hat{X})]\leq D}{\min}I(X;\hat{X})$\\
+For BSC with $d=\mathbbm{1}_{x=\hat{x}}$ $R_i(D)=(1-h_2(D))\Ib_{0\leq D\leq 1/2}$\\
+For $X\sim\mathcal{N}(0,\sigma^2),\hat{\Xc}=\Rb,d=(x-\hat{x})^2$\\
+$R_i(D)=\frac{1}{2}\log\frac{\sigma^2}{D}\Ib_{0\leq D\leq\sigma^2}$\\
+$D\mapsto R_i(D)$ convex non-increasing.\\
+For $X^n$ with iid elem $I(X;\hat{X})\geq\sum_iI(X_i;\hat{X}_i)$\\
+\nc{AEP proofs}
+\setlist[enumerate]{leftmargin=8.1pt}
 
+1. Change to numbers $2^{-n(H(X)+\epsilon)}\leq\prod_{i=1}^{n}P_{X}\left(x_{i}\right)\leq2^{-n(H(X)-\epsilon)}-\left(H\left(X\right)+\epsilon\right)\leq\frac{1}{n}\log\prod_{i=1}^{n}P_{X}\left(x_{i}\right)\leq-\left(H\left(X\right)-\epsilon\right)H\left(X\right)+\epsilon\geq\frac{1}{n}\log\prod_{i=1}^{n}\frac{1}{P_{X}\left(x_{i}\right)}\geq H\left(X\right)-\epsilon$ 
 
+2. $P\left(X^{n}\notin\mathcal{A}_{\epsilon}^{\left(n\right)}\right)=\\P\left(\left|\frac{1}{n}\log\frac{1}{\prod_{i=1}^{n}P_{X}\left(X_{i}\right)}-\mathbb{E}\left[\log\frac{1}{P_{X}(X)}\right]\right|>\epsilon\right)=P\left(\left|\frac{1}{n}\sum_{i=1}^{n}\log\frac{1}{P_{X}\left(X_{i}\right)}-\mathbb{E}\left[\log\frac{1}{P_{X}(X)}\right]\right|>\epsilon\right)$
+
+3. $1\geq P\left(X^{n}\in\mathcal{A}_{\epsilon}^{(n)}\right)=\sum_{x^{n}\in\mathcal{A}_{\epsilon}^{(n)}}P\left(X^{n}=x^{n}\right)\ \ \geq\sum_{x^{n}\in\mathcal{A}_{\epsilon}^{(n)}}2^{-n(H(X)+\epsilon)}=\left|\mathcal{A}_{\epsilon}^{(n)}\right|\cdot2^{-n(H(X)+\epsilon)}$
+
+4. $1-\epsilon\leq P\left(X^{n}\in\mathcal{A}_{\epsilon}^{(n)}\right)=\sum_{x^{n}\in\mathcal{A}_{\epsilon}^{(n)}}P\left(X^{n}=x^{n}\right)\ \ \leq\sum_{x^{n}\in\mathcal{A}_{\epsilon}^{(n)}}2^{-n(H(X)-\epsilon)}=\left|\mathcal{A}_{\epsilon}^{(n)}\right|\cdot2^{-n(H(X)-\epsilon)}$\\
 
 \end{multicols*}
 \end{document}
