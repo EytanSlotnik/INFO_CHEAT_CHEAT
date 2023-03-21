@@ -27,6 +27,6 @@ jobs:
         git add notes.pdf
         git commit -m "Auto-generated PDF"
         git push
-      env:
-        TEXINPUTS: .:./sty:
+#       env:
+#         TEXINPUTS: .:./sty:
 
