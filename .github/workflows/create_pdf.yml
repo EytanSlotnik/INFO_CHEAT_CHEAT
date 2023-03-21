@@ -10,3 +10,12 @@ jobs:
         uses: dante-ev/latex-action@latest
         with:
           root_file: main.tex
+          
+      - name: push changes to remote
+        run: |
+          git config --global user.name EytanSlotnik
+          git config --global user.email eythens@gmail.com
+
+
+          git add &lt;pathspec&gt; git commit -m "commit message"
+          git push
