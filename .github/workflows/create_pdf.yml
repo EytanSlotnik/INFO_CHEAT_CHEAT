@@ -10,7 +10,7 @@ jobs:
 
       - name: Compile test LaTeX document with Maths
         id: compile-latex-document-with-maths
-        uses: ./
+        uses: thomas-chauvet/latex2pdf-action@1.1.0
         with:
           output_dir: output
           main_latex_file: main.tex
