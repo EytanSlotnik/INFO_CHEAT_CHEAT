@@ -13,8 +13,8 @@ jobs:
           
       - name: push changes to remote
         run: |
-          git config --global user.name EytanSlotnik
-          git config --global user.email eythens@gmail.com
+          git config --global EytanSlotnik
+          git config --global eythens@gmail.com
 
 
           git add &lt;pathspec&gt; git commit -m "commit message"
