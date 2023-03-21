@@ -12,7 +12,7 @@ jobs:
       uses: xu-cheng/latex-action@v2
       with:
           # The root LaTeX file to be compiled
-          root_file: report.tex
+          root_file: main.tex
 
           # Interpret the root_file input as bash glob pattern
           # glob_root_file: # optional
@@ -53,8 +53,8 @@ jobs:
 
     - name: Upload file to repository
       run: |
-        git config --global user.name "your_username"
-        git config --global user.email "your_email"
+        git config --global user.name EytanSlotnik
+        git config --global user.email eythens@gmail.com
         git add report.pdf
         git commit -m "commit message"
         git push
